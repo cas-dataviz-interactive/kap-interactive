@@ -1,32 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Hello Bulma!</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+
 <style>
-    h1,
-    h2 {
-        font-family: Lato;
-    }
 
-    #svg {
-        background-color: lightgrey;
-    }
+  #svg {
+      background-color: lightgrey;
+  }
 
-    .bar {
-        shape-rendering: crispEdges;
-        fill: purple;
-    }
+  .bar {
+      shape-rendering: crispEdges;
+      fill: purple;
+  }
 
-    .bar-label {
-        fill: white;
-    }
+  .bar-label {
+      fill: white;
+  }
 
-    .bar-label {
-        text-anchor: end;
-    }
+  .bar-label {
+      text-anchor: end;
+  }
 </style>
+  </head>
+  <body>
+
+    <div class="buttons has-addons">
+      <span class="button">Yes</span>
+      <span class="button">Maybe</span>
+      <span class="button">No</span>
+    </div>
+    <div id="app"></div>
+
+  </body>
+
 <script src="https://d3js.org/d3.v5.min.js"></script>
-<div id="app"></div>
+
 <script>
 
 
-d3.csv('ist-daten-sbb.csv',function(d){
+d3.dsv(';','ist-daten-sbb.csv',function(d){
     return d;
 }).then(function(csv){
     console.log(csv);
@@ -78,3 +95,7 @@ chart.selectAll(".bar")
     return y(1)-1
   });
 </script>
+
+</html>
+
+
