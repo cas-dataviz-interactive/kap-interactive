@@ -2,7 +2,7 @@ var w = 1200;
 var h = 1000;
 
 var margin = {
-  top: 20,
+  top: 200,
   bottom: 20,
   left: 100,
   right: 20
@@ -34,9 +34,9 @@ d3.dsv(',', 'kap.csv', function (d) {
     key: d['key']
   }
 }).then(function (csv) {
-  
 
-  data = csv.filter(function(d){
+
+  data = csv.filter(function (d) {
     return d.date > startDate && d.date < endDate;
   });
 
@@ -54,19 +54,19 @@ d3.dsv(',', 'kap.csv', function (d) {
 
   console.log(stations);
 
-  var dateExtent = d3.extent(data,function(d){
+  var dateExtent = d3.extent(data, function (d) {
     return d.date;
   });
 
-  console.log('dateExtent',dateExtent);
+  console.log('dateExtent', dateExtent);
   x.domain(dateExtent)
     .range([0, width]);
 
   y.domain(stations)
     .range([0, height]);
 
-  r.domain([50,100])
-    .range([0,5]);
+  r.domain([50, 100])
+    .range([0, 5]);
 
   var svg = d3.select("#chart").append("svg")
     .attr("id", "svg")
@@ -78,7 +78,7 @@ d3.dsv(',', 'kap.csv', function (d) {
   chart.selectAll("circle")
     .data(data)
     .join("circle")
-    .attr("cx", function(d){
+    .attr("cx", function (d) {
       return x(d.date);
     })
     .attr("cy", function (d, i) {
@@ -87,7 +87,7 @@ d3.dsv(',', 'kap.csv', function (d) {
     .attr("r", function (d, i) {
       return r(d.kap);
     })
-    .style('fill',function(d){
+    .style('fill', function (d) {
       // if(d.kap == 100){
       //   return 'green';
       // }
@@ -97,7 +97,17 @@ d3.dsv(',', 'kap.csv', function (d) {
       // else return 'none';
       return 'black';
     })
-    .style('stroke','black');
+    .style('stroke', 'black');
+
+  chart.append('g').call(d3.axisLeft(y));
+  chart.append('g')
+    .call(d3.axisTop(x).ticks(d3.timeDay.every(7)))
+    .selectAll("text")
+    .attr("y", 0)
+    .attr("x", 9)
+    //.attr("dy", ".35em")
+    .attr("transform", "rotate(-45)")
+    .style("text-anchor", "start");;
 
 });
 
