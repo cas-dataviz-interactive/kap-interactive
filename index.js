@@ -35,7 +35,6 @@ d3.dsv(',', 'kap.csv', function (d) {
   }
 }).then(function (csv) {
 
-
   data = csv.filter(function (d) {
     return d.date > startDate && d.date < endDate;
   });
