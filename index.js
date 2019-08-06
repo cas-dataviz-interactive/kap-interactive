@@ -23,9 +23,6 @@ var w = 600;
 var h = 800;
 
 
-
-
-
 var x = d3.scaleLinear()
   .domain([0, d3.max(data)])
   .range([0, width]);
