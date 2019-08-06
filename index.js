@@ -65,8 +65,8 @@ d3.dsv(',', 'kap.csv', function (d) {
   y.domain(stations)
     .range([0, height]);
 
-  r.domain([50, 100])
-    .range([0, 5]);
+  r.domain([0, 100])
+    .range([5, 0.1]);
 
   var svg = d3.select("#chart").append("svg")
     .attr("id", "svg")
