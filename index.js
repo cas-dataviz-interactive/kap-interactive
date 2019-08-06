@@ -2,7 +2,7 @@ var w = 1200;
 var h = 1000;
 
 var margin = {
-  top: 200,
+  top: 100,
   bottom: 20,
   left: 100,
   right: 20
