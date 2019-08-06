@@ -1,5 +1,5 @@
-var w = 400;
-var h = 250;
+var w = 600;
+var h = 800;
 
 var margin = {
   top: 20,
@@ -13,18 +13,31 @@ var height = h - margin.top - margin.bottom
 
 var data = [23, 67, 34, 56, 89, 100, 234, 134, 97];
 
+d3.dsv(';', 'kap.csv', function (d) {
+  return d;
+}).then(function (csv) {
+  console.log(csv);
+});
+
+var w = 600;
+var h = 800;
+
+
+
+
+
 var x = d3.scaleLinear()
-    .domain([0, d3.max(data)])  
-    .range([0,width]);
+  .domain([0, d3.max(data)])
+  .range([0, width]);
 
 var y = d3.scaleLinear()
-    .domain([0, data.length])  
-    .range([0,height]);
+  .domain([0, data.length])
+  .range([0, height]);
 
 var svg = d3.select("body").append("svg")
   .attr("id", "svg")
   .attr("width", w)
-  .attr("height", h);   
+  .attr("height", h);
 
 var chart = svg.append('g')
 chart.selectAll(".bar")
@@ -40,6 +53,6 @@ chart.selectAll(".bar")
   .attr("width", function (d, i) {
     return x(d);
   })
-  .attr("height", function(d,i){
-    return y(1)-1
+  .attr("height", function (d, i) {
+    return y(1) - 1
   });
