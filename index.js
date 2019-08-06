@@ -23,6 +23,10 @@ var x = d3.scaleTime();
 var y = d3.scalePoint();
 var r = d3.scaleLinear();
 
+var categories = ['kap', 'kapFern', 'kapReg', 'kepAn'];
+var selectedCategory = categories[0];
+var chart;
+
 d3.dsv(',', 'kap.csv', function (d) {
   return {
     date: parseDate(d.Datum),
@@ -72,32 +76,44 @@ d3.dsv(',', 'kap.csv', function (d) {
     .attr("width", w)
     .attr("height", h);
 
-  var chart = svg.append('g').attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+  chart = svg.append('g').attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+  render();
+
+});
+
+
+function render() {
+
+  const t = chart.transition()
+        .duration(750);
 
   chart.selectAll("circle")
     .data(data)
-    .join("circle")
-    .attr("cx", function (d) {
-      return x(d.date);
-    })
-    .attr("cy", function (d, i) {
-      return y(d.name);
-    })
-    .attr("r", function (d, i) {
-      return r(d.kap);
-    })
-    .style('fill', function (d) {
-      // if(d.kap == 100){
-      //   return 'green';
-      // }
-      // else if(d.kap < 80){
-      //   return 'red';
-      // }
-      // else return 'none';
-      return 'black';
-    })
-    .style('stroke', 'black');
+    // .join("circle")
+    .join(
+      enter => enter.append('circle').attr("cx", function (d) {
+        console.log('enter');
+        return x(d.date);
+      }).attr("cy", function (d, i) {
+        return y(d.name);
+      })
+      .attr("r", function (d, i) {
+        return r(d[selectedCategory]);
+      })
+      .style('fill', function (d) {
+        return 'black';
+      })
+      .style('stroke', 'black')
+      .call(enter => enter.transition(t)
+      .attr("r", 0)),
+      update => update
+        .call(update => update.transition(t)
+        .attr("r", (d, i) => r(d[selectedCategory])))
+    )
 
+
+  //axis
   chart.append('g').call(d3.axisLeft(y));
   chart.append('g')
     .call(d3.axisTop(x).ticks(d3.timeDay.every(7)))
@@ -106,9 +122,22 @@ d3.dsv(',', 'kap.csv', function (d) {
     .attr("x", 9)
     //.attr("dy", ".35em")
     .attr("transform", "rotate(-45)")
-    .style("text-anchor", "start");;
+    .style("text-anchor", "start");
 
-});
+  //navigation
+  d3.select("#nav")
+    .selectAll('button')
+    .data(categories)
+    .join("button")
+    .attr("type", "button")
+    .text(function (d) {
+      return d;
+    }).on('click', function (d) {
+      console.log('click', d);
+      selectedCategory = d;
+      render();
+    });
+}
 
 
 
