@@ -1,1 +1,1 @@
-# kap
+# kap-interactive
