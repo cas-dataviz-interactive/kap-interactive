@@ -25,7 +25,6 @@ var r = d3.scaleLinear();
 
 var categories = ['kap', 'kapFern', 'kapReg', 'kepAn'];
 var selectedCategory = categories[0];
-var chart;
 
 d3.dsv(',', 'kap.csv', function (d) {
   return {
@@ -44,6 +43,15 @@ d3.dsv(',', 'kap.csv', function (d) {
   });
 
   console.log(data);
+
+  render();
+
+});
+
+
+function render() {
+
+
 
   dates = d3.set(data, function (d) {
     return d.date;
@@ -71,47 +79,29 @@ d3.dsv(',', 'kap.csv', function (d) {
   r.domain([0, 100])
     .range([5, 0.1]);
 
+  d3.select("#chart").selectAll("svg").remove();
+
   var svg = d3.select("#chart").append("svg")
     .attr("id", "svg")
     .attr("width", w)
     .attr("height", h);
 
-  chart = svg.append('g').attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-  render();
-
-});
-
-
-function render() {
-
-  const t = chart.transition()
-        .duration(750);
+  var chart = svg.append('g').attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
   chart.selectAll("circle")
     .data(data)
-    // .join("circle")
-    .join(
-      enter => enter.append('circle').attr("cx", function (d) {
-        console.log('enter');
-        return x(d.date);
-      }).attr("cy", function (d, i) {
-        return y(d.name);
-      })
-      .attr("r", function (d, i) {
-        return r(d[selectedCategory]);
-      })
-      .style('fill', function (d) {
-        return 'black';
-      })
-      .style('stroke', 'black')
-      .call(enter => enter.transition(t)
-      .attr("r", 0)),
-      update => update
-        .call(update => update.transition(t)
-        .attr("r", (d, i) => r(d[selectedCategory])))
-    )
-
+    .join("circle")
+    .join().attr("cx", function (d) {
+      return x(d.date);
+    }).attr("cy", function (d, i) {
+      return y(d.name);
+    })
+    .attr("r", function (d, i) {
+      return r(d[selectedCategory]);
+    })
+    .style('fill', function (d) {
+      return 'black';
+    })
 
   //axis
   chart.append('g').call(d3.axisLeft(y));
