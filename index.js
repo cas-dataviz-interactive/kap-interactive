@@ -77,7 +77,7 @@ function render() {
     .range([0, height]);
 
   r.domain([0, 100])
-    .range([5, 0.1]);
+    .range([10, 0.1]);
 
   d3.select("#chart").selectAll("svg").remove();
 
@@ -102,6 +102,22 @@ function render() {
     .style('fill', function (d) {
       return 'black';
     })
+    .on("mouseover",function(d){
+      // d3.select("#tooltip")
+      // .style("position","relative")
+      // .style("top",y(d.name) + margin.left + "px")
+      // .style("left",x(d.date) + margin.top + "px") 
+  
+
+      d3.select("#tooltip")
+      .style('opacity',1)
+      .style('left', d3.event.pageX + 'px')
+      .style('top', d3.event.pageY - 28 + 'px')
+      .text(d.name + ': ' + d[selectedCategory]);
+
+    }).on("mouseout",function(d){
+      d3.select("#tooltip").style("opacity",0);
+    });
 
   //axis
   chart.append('g').call(d3.axisLeft(y));
