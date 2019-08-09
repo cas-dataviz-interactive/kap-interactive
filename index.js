@@ -104,7 +104,7 @@ function render() {
       d3.select("#tooltip")
       .style('opacity',1)
       .style('left', d3.event.pageX + 'px')
-      .style('top', d3.event.pageY - 28 + 'px')
+      .style('top', d3.event.pageY - 60 + 'px')
       .text(d.name + ': ' + d[selectedCategory]);
 
     }).on("mouseout",function(d){
