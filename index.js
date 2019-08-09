@@ -51,8 +51,6 @@ d3.dsv(',', 'kap.csv', function (d) {
 
 function render() {
 
-
-
   dates = d3.set(data, function (d) {
     return d.date;
   }).values();
@@ -103,12 +101,6 @@ function render() {
       return 'black';
     })
     .on("mouseover",function(d){
-      // d3.select("#tooltip")
-      // .style("position","relative")
-      // .style("top",y(d.name) + margin.left + "px")
-      // .style("left",x(d.date) + margin.top + "px") 
-  
-
       d3.select("#tooltip")
       .style('opacity',1)
       .style('left', d3.event.pageX + 'px')
